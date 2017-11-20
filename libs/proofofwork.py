@@ -1,4 +1,4 @@
-import sha, math, itertools
+import sha, itertools
 
 class Challenge():
 	def __init__(self, difficulty=9, charset='ABCDEFGHIJKabcdefghijk'):
