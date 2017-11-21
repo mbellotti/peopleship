@@ -1,4 +1,4 @@
-import sha, itertools
+import hashlib, itertools
 
 class Challenge():
 	def __init__(self, difficulty=9, charset='ABCDEFGHIJKabcdefghijk'):
@@ -6,7 +6,7 @@ class Challenge():
 		self.charset = charset
 	
 	def hashcash_hash(self, h):
-		return int(sha.new(h).hexdigest(), 16)
+		return int(hashlib.sha256(h).hexdigest(), 16)
 	
 	def tokens(self):
 	    for n in itertools.count(1):
@@ -19,9 +19,9 @@ class Challenge():
 			if h & (1<<i): return i
 		
 	def generate(self, s):
-		h = sha.new(s).digest()
+		h = hashlib.sha256(s).digest()
 		for t in self.tokens():
 			if self.number_of_zeros(self.hashcash_hash(h+t)) == self.zeros: return t
 
 	def validate(self, s, token):
-		return self.number_of_zeros(self.hashcash_hash(sha.new(s).digest() + token))
+		return self.number_of_zeros(self.hashcash_hash(hashlib.sha256(s).digest() + token))
